@@ -1,0 +1,32 @@
+name: CI
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+        
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v6
+      
+      - name: Setup node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+        
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+        
+      - name: Build
+        run: npm run build

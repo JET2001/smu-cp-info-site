@@ -1,0 +1,11 @@
+{
+  "name": "SMU CP Frontend",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "workspaceFolder": "/workspace",
+  "forwardPorts": [5173],
+  "postCreateCommand": "npm ci",
+  "remoteUser": "node",
+  "updateRemoteUserUID": true
+}
