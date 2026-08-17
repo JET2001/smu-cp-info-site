@@ -1,60 +1,77 @@
 import './style.css'
-import typescriptLogo from './assets/typescript.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import { setupCounter } from './counter.ts'
+import { renderFooter, renderHeader } from './shared'
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-<section id="center">
-  <div class="hero">
-    <img src="${heroImg}" class="base" width="170" height="179">
-    <img src="${typescriptLogo}" class="framework" alt="TypeScript logo"/>
-    <img src="${viteLogo}" class="vite" alt="Vite logo" />
-  </div>
-  <div>
-    <h1>Get started</h1>
-    <p>Edit <code>src/main.ts</code> and save to test <code>HMR</code></p>
-  </div>
-  <button id="counter" type="button" class="counter"></button>
-</section>
 
-<div class="ticks"></div>
+const archiveUrl = "https://archive.smujudge.com/index.html"
 
-<section id="next-steps">
-  <div id="docs">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#documentation-icon"></use></svg>
-    <h2>Documentation</h2>
-    <p>Your questions, answered</p>
-    <ul>
-      <li>
-        <a href="https://vite.dev/" target="_blank">
-          <img class="logo" src="${viteLogo}" alt="" />
-          Explore Vite
-        </a>
-      </li>
-      <li>
-        <a href="https://www.typescriptlang.org" target="_blank">
-          <img class="button-icon" src="${typescriptLogo}" alt="">
-          Learn more
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div id="social">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#social-icon"></use></svg>
-    <h2>Connect with us</h2>
-    <p>Join the Vite community</p>
-    <ul>
-      <li><a href="https://github.com/vitejs/vite" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#github-icon"></use></svg>GitHub</a></li>
-      <li><a href="https://chat.vite.dev/" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#discord-icon"></use></svg>Discord</a></li>
-      <li><a href="https://x.com/vite_js" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#x-icon"></use></svg>X.com</a></li>
-      <li><a href="https://bsky.app/profile/vite.dev" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#bluesky-icon"></use></svg>Bluesky</a></li>
-    </ul>
-  </div>
-</section>
+function renderApp(): string {
+  return `
+    ${renderHeader('home')}
+    <main class="container">
+      ${renderHero()}
+      ${renderPrinciples()}
+    </main>
+    ${renderFooter()}
+  `
+}
+const app = document.querySelector<HTMLDivElement>('#app')
 
-<div class="ticks"></div>
-<section id="spacer"></section>
-`
+if (!app){
+  throw new Error("app not found")
+}
+app.innerHTML = renderApp()
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+//*************************************************************** */
+// HTML Elements
+function renderHero(): string {
+  return `
+    <section class="hero">
+      <p class="eyebrow">Singapore Management University</p>
+
+      <h1>
+        Competitive<br />
+        Programming
+      </h1>
+
+      <p class="hero-copy">
+        A community of students brought together by algorithms,
+        rigorous problem solving, and programming competition.
+      </p>
+    </section>
+  `
+}
+function renderPrinciples(): string {
+  return `
+    <section class="principles" aria-labelledby="principles-heading">
+      <div>
+        <p id="principles-heading" class="section-label">
+          What we are here for
+        </p>
+      </div>
+
+      <article class="principle">
+        <span class="principle-number">01</span>
+
+        <h2>Mission</h2>
+
+        <p>
+          Bring together students who enjoy algorithms, reasoning,
+          and difficult problems, and give them a place to learn,
+          train, and compete alongside one another.
+        </p>
+      </article>
+
+      <article class="principle">
+        <span class="principle-number">02</span>
+
+        <h2>Vision</h2>
+
+        <p>
+          Build a competitive programming culture at SMU that
+          endures across cohorts and continues to grow beyond
+          any individual batch of students.
+        </p>
+      </article>
+    </section>
+  `
+}
