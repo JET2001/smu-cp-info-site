@@ -1,9 +1,6 @@
 import './style.css'
 import { renderFooter, renderHeader } from './shared'
 
-
-const archiveUrl = "https://archive.smujudge.com/index.html"
-
 function renderApp(): string {
   return `
     ${renderHeader('home')}
