@@ -11,10 +11,9 @@ import {
 import { getCodeforcesUsers } from '../../src/api/codeforces'
 import {
   CODEFORCES_BANDS,
-  ATCODER_BANDS,
   CODEFORCES_URL,
   ATCODER_URL,
-  VJUDGE_URL,
+  VJUDGE_URL
 } from '../../src/constants'
 
 describe('parseMembers', () => {
