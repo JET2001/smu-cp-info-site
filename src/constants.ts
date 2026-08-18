@@ -1,8 +1,10 @@
 export type RatingBand = readonly [threshold: number, className: string]
 
-export const CODEFORCES_URL = 'https://codeforces.com'
-export const ATCODER_URL = 'https://atcoder.jp'
-export const VJUDGE_URL = 'https://vjudge.net'
+export const CODEFORCES_URL = 'https://codeforces.com/profile'
+export const ATCODER_URL = 'https://atcoder.jp/users'
+export const VJUDGE_URL = 'https://vjudge.net/user'
+
+export const CODEFORCES_USER_INFO_API_PATH = 'https://codeforces.com/api/user.info?handles'
 
 export const CODEFORCES_BANDS: readonly RatingBand[] = [
   [0, 'cf-gray'],

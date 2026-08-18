@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
-    "update:atcoder": "tsx scripts/update-atcoder-ratings.ts"
+    "update:atcoder": "tsx scripts/update-atcoder-ratings.ts",
+    "test": "vitest"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -18,7 +19,8 @@
     "tsx": "^4.23.12",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.67.0",
-    "vite": "^8.2.0"
+    "vite": "^8.2.0",
+    "vitest": "^4.1.11"
   },
   "dependencies": {
     "@qatadaazzeh/atcoder-api": "^1.0.1"
