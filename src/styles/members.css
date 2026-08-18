@@ -82,3 +82,33 @@
 .members-table tbody tr:hover {
   background: rgba(0, 0, 0, 0.018);
 }
+
+.rating-handle {
+  font-weight: 500;
+}
+
+.members-table a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.cf-gray { color: #808080; }
+.cf-green { color: #008000; }
+.cf-cyan { color: #03a89e; }
+.cf-blue { color: #0000ff; }
+.cf-violet { color: #aa00aa; }
+.cf-orange { color: #ff8c00; }
+.cf-red { color: #ff0000; }
+
+.at-gray { color: #808080; }
+.at-brown { color: #804000; }
+.at-green { color: #008000; }
+.at-cyan { color: #00c0c0; }
+.at-blue { color: #0000ff; }
+.at-yellow { color: #c0c000; }
+.at-orange { color: #ff8000; }
+.at-red { color: #ff0000; }
+
+.rating-unrated {
+  color: var(--muted);
+}
