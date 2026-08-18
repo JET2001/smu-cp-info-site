@@ -3,7 +3,6 @@ import './styles/members.css'
 import membersCsv from './data/members.csv?raw'
 import { renderFooter, renderHeader } from './shared'
 import { getCodeforcesUsers } from './api/codeforces'
-
 import {
     ATCODER_BANDS,
     ATCODER_URL,
@@ -12,6 +11,8 @@ import {
     type RatingBand,
     VJUDGE_URL
  } from './constants'
+
+import atcoderRatings from './data/atcoder-ratings.json'
 
 interface Member {
     name: string
@@ -80,7 +81,6 @@ async function loadCodeforcesRatings(members: Member[]): Promise<void> {
 function renderMembersPage(members: Member[]): string {
     return `
         <section class="page-heading">
-            <p class="eyebrow">SMU CP</p>
             <h1>Members</h1>
             <p>
                 Past and present members of the SMU Competitive Programming community
@@ -95,12 +95,18 @@ function parseMembers(csv: string): Member[]{
     const lines = csv.trim().split(/\r?\n/)
     return lines.slice(1).map(line => {
         const [name, codeforces, atcoder, vjudge, remarks] = line.split(',')
+        const atcoderHandle = atcoder.trim() || undefined
         return {
             name: name.trim(),
             codeforces: codeforces.trim() || undefined,
-            atcoder: atcoder.trim() || undefined,
+            atcoder: atcoderHandle,
             vjudge: vjudge.trim() || undefined,
-            remarks: remarks.trim() || undefined
+            remarks: remarks.trim() || undefined,
+            
+            atcoderRating: atcoderHandle ? atcoderRatings[
+                atcoderHandle.toLowerCase() as keyof typeof atcoderRatings
+            ]
+            : undefined
         }
     })
 }
