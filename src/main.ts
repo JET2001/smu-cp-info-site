@@ -1,4 +1,4 @@
-import './style.css'
+import './styles/shared.css'
 import { renderFooter, renderHeader } from './shared'
 
 function renderApp(): string {
