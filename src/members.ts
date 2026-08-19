@@ -54,6 +54,7 @@ function renderMembersPage(members: Member[]): string {
             </section>
             <section class="members-section">
                 ${renderMembersTable(members)}
+                ${renderMembersMobile(members)}
             </section>
     `
 }
@@ -127,6 +128,50 @@ function renderMembersTable(members: Member[]): string {
                     ${members.map(renderMember).join('')}
                 </tbody>
             </table>
+        </div>
+    `
+}
+
+function renderMembersMobile(members: Member[]): string {
+    return `
+        <div class="members-mobile">
+            ${members.map(renderMemberMobile).join('')}
+        </div>
+    `
+}
+
+function renderMemberMobile(member: Member): string {
+    return `
+        <article class="member-card">
+            <h2>${member.name}</h2>
+
+            <div class="member-handles">
+                ${member.codeforces
+                    ? renderMobileHandle('CF', renderCodeforcesHandle(member))
+                    : ''}
+                ${member.atcoder
+                    ? renderMobileHandle('AC', renderAtcoderHandle(member))
+                    : ''}
+                ${member.vjudge
+                    ? renderMobileHandle('VJ', renderVjudgeHandle(member.vjudge))
+                    : ''}
+            </div>
+
+            ${member.remarks
+                ? `<p class="member-note">${member.remarks}</p>`
+                : ''}
+        </article>
+    `
+}
+
+function renderMobileHandle(
+    platform: string,
+    handle: string,
+): string {
+    return `
+        <div class="member-handle">
+            <span>${platform}</span>
+            ${handle}
         </div>
     `
 }

@@ -87,3 +87,62 @@
 .rating-unrated {
   color: var(--muted);
 }
+
+.members-mobile {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .table-wrapper {
+    display: none;
+  }
+
+  .members-mobile {
+    display: block;
+    border-top: 1px solid var(--border);
+  }
+
+  .member-card {
+    padding: 18px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .member-card h2 {
+    margin: 0 0 12px;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+
+    color: var(--muted);
+  }
+
+  .member-handles {
+    display: grid;
+    gap: 7px;
+  }
+
+  .member-handle {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 10px;
+
+    font-size: 14px;
+  }
+
+  .member-handle > span {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+
+  .member-note {
+    margin: 14px 0 0;
+
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+}
