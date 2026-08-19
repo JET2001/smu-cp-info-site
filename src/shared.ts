@@ -1,4 +1,4 @@
-export type Page = 'home' | 'members' | 'icpc'
+export type Page = 'home' | 'trainings' | 'members'
 
 const archiveUrl = 'https://archive.smujudge.com/index.html'
 
@@ -10,8 +10,8 @@ export function renderNavLinks(currentPage: Page): string {
     return `
     <div class = "nav-links">
       <a ${activeClass('home', currentPage)} href="/">Home</a>
+      <a ${activeClass('trainings', currentPage)} href="/trainings/">Trainings</a>
       <a ${activeClass('members', currentPage)} href="/members/">Members</a>
-      <a ${activeClass('icpc', currentPage)} href="/icpc/">ICPC</a>
       <a class="archive" href="${archiveUrl}" target="_blank", rel="noopener noreferrer">Archive ↗</a>
     </div>
   `
