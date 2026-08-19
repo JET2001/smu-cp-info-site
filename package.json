@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "update:atcoder": "tsx scripts/update-atcoder-ratings.ts",
-    "test": "vitest"
+    "test": "vitest",
+    "deploy": "npm run build && wrangler deploy"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
@@ -20,7 +21,8 @@
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.67.0",
     "vite": "^8.2.0",
-    "vitest": "^4.1.11"
+    "vitest": "^4.1.11",
+    "wrangler": "^4.124.0"
   },
   "dependencies": {
     "@qatadaazzeh/atcoder-api": "^1.0.1"

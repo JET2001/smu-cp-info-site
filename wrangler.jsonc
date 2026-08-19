@@ -1,0 +1,19 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "smu-cp-info-site",
+  "compatibility_date": "2026-08-20",
+
+  "workers_dev": false,
+  "preview_urls": false,
+
+  "routes": [
+    {
+      "pattern": "info.smujudge.com",
+      "custom_domain": true
+    }
+  ],
+
+  "assets": {
+    "directory": "./dist"
+  }
+}
