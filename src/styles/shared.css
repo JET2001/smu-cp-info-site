@@ -214,6 +214,7 @@ a {
   line-height: 1.65;
 
   color: var(--muted);
+  text-align: justify;
 }
 
 /* Footer */

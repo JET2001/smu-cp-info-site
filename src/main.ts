@@ -31,8 +31,7 @@ function renderHero(): string {
       </h1>
 
       <p class="hero-copy">
-        A community of students brought together by algorithms,
-        rigorous problem solving, and programming competition.
+        A hobbyist community for algorithms, mathematics and problem solving.
       </p>
     </section>
   `
@@ -42,31 +41,18 @@ function renderPrinciples(): string {
     <section class="principles" aria-labelledby="principles-heading">
       <div>
         <p id="principles-heading" class="section-label">
-          What we are here for
+          --verbose
         </p>
       </div>
 
       <article class="principle">
-        <span class="principle-number">01</span>
-
-        <h2>Mission</h2>
-
         <p>
-          Bring together students who enjoy algorithms, reasoning,
-          and difficult problems, and give them a place to learn,
-          train, and compete alongside one another.
+          SMU Competitive Programming began in 2024 with SMU's first ICPC team since 2017. It has grown into a wider community for students interested in competitive programming and algorithmic problem solving.
         </p>
       </article>
-
       <article class="principle">
-        <span class="principle-number">02</span>
-
-        <h2>Vision</h2>
-
         <p>
-          Build a competitive programming culture at SMU that
-          endures across cohorts and continues to grow beyond
-          any individual batch of students.
+          Today, the programme combines training and contests for students who enjoy logical problems and exploring ideas beyond the curriculum. It also provides a pathway for students seeking to represent SMU at ICPC. 
         </p>
       </article>
     </section>
