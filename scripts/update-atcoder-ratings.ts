@@ -23,6 +23,6 @@ for (const handle of handles) {
 }
 
 await fs.writeFile(
-  'src/data/atcoder-ratings.json',
+  'public/data/atcoder-ratings.json',
   JSON.stringify(ratings, null, 2) + '\n',
 )
