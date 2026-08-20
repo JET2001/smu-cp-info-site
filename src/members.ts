@@ -1,6 +1,5 @@
 import './styles/shared.css'
 import './styles/members.css'
-import membersCsv from './data/members.csv?raw'
 import { renderFooter, renderHeader } from './shared'
 import {
     ATCODER_BANDS,
@@ -9,6 +8,7 @@ import {
 import { 
     parseMembers, 
     loadCodeforcesRatings, 
+    loadAtcoderRatings,
     ratingClass, 
     codeforcesUrl, 
     atcoderUrl, 
@@ -29,21 +29,24 @@ function renderApp(members: Member[]): string {
 const app = document.querySelector<HTMLDivElement>('#app')
 if (!app) throw new Error('app not found')
 
-const members = parseMembers(membersCsv)
-// render immediately without waiting for CF
-app.innerHTML = renderApp(members)
-
-// make the request to load CF ratings 
-void loadCodeforcesRatings(members)
-    .then(() => {
-       app.innerHTML = renderApp(members) 
-    })
-    .catch(error => {
-        console.warn("Could not load Codeforces ratings", error)
+void loadMembers()
+    .then(async members => {
+        app.innerHTML = renderApp(members)
+        await Promise.allSettled([
+            loadCodeforcesRatings(members),
+            loadAtcoderRatings(members)
+        ])
+        app.innerHTML = renderApp(members)
     })
 
 /**************************************************************** */
 
+
+async function loadMembers(): Promise<Member[]> {
+    const response = await fetch('/data/members.csv')
+    const csv = await response.text()
+    return parseMembers(csv)
+}
 function renderMembersPage(members: Member[]): string {
     return `
         <section class="page-heading">

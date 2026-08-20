@@ -6,7 +6,6 @@ import {
     VJUDGE_URL
  } from '../constants'
 
-import atcoderRatings from '../data/atcoder-ratings.json'
 import { type Member } from './types'
 
 export async function loadCodeforcesRatings(
@@ -34,24 +33,36 @@ export async function loadCodeforcesRatings(
   }
 }
 
-export function parseMembers(csv: string): Member[]{
+export function parseMembers(csv: string): Member[] {
     const lines = csv.trim().split(/\r?\n/)
+
     return lines.slice(1).map(line => {
         const [name, codeforces, atcoder, vjudge, remarks] = line.split(',')
-        const atcoderHandle = atcoder.trim() || undefined
+
         return {
             name: name.trim(),
             codeforces: codeforces.trim() || undefined,
-            atcoder: atcoderHandle,
+            atcoder: atcoder.trim() || undefined,
             vjudge: vjudge.trim() || undefined,
-            remarks: remarks.trim() || undefined,
-            
-            atcoderRating: atcoderHandle ? atcoderRatings[
-                atcoderHandle.toLowerCase() as keyof typeof atcoderRatings
-            ]
-            : undefined
+            remarks: remarks.trim() || undefined
         }
     })
+}
+export async function loadAtcoderRatings(
+    members: Member[],
+): Promise<void> {
+    const response = await fetch('/data/atcoder-ratings.json')
+
+    if (!response.ok) {
+        throw new Error(`Could not load AtCoder ratings: ${response.status}`)
+    }
+
+    const ratings = await response.json() as Record<string, number>
+
+    for (const member of members) {
+        if (!member.atcoder) continue
+        member.atcoderRating = ratings[member.atcoder.toLowerCase()]
+    }
 }
 export function codeforcesUrl(handle: string): string {
   return `${CODEFORCES_URL}/${encodeURIComponent(handle)}`
