@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises'
 import { fetchUserInfo } from '@qatadaazzeh/atcoder-api'
 
-const csv = await fs.readFile('src/data/members.csv', 'utf8')
+const csv = await fs.readFile('public/data/members.csv', 'utf8')
 
 const handles = csv
   .trim()
