@@ -29,6 +29,17 @@ body {
   background: var(--background);
 }
 
+.eyebrow {
+  margin: 0 0 18px;
+
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+
+  color: var(--accent);
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -42,7 +53,7 @@ a {
 /* Header */
 
 .site-header {
-  border-top: 4px solid var(--accent);
+  border-top: 4px soliQd var(--accent);
 }
 
 .navbar {
@@ -240,7 +251,7 @@ a {
 
 @media (max-width: 760px) {
   .container {
-    width: min(100% - 30px, var(--max-width));
+    width: min(100% - 40px, var(--max-width));
   }
 
   .navbar {
@@ -283,6 +294,21 @@ a {
     gap: 42px;
 
     padding-bottom: 76px;
+  }
+
+  .site-footer {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .principles {
+    grid-template-columns: 1fr;
+    gap: 42px;
+    padding-bottom: 76px;
+  }
+
+  .principle p {
+    max-width: none;
+    text-align: justify;
   }
 
   .site-footer {
