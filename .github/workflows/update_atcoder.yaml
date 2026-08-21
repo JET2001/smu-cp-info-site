@@ -39,6 +39,6 @@ jobs:
                         exit 0
                     fi
 
-                    git commit -m "chore: update AtCoder ratings at $(TZ=Asia/Singapore date '+%Y-%m-%d %H:%M SGT')"
+                    git commit -m "chore - update AtCoder ratings at $(TZ=Asia/Singapore date '+%Y-%m-%d %H:%M SGT')"
                     git push
 
