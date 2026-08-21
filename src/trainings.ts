@@ -27,9 +27,7 @@ function renderHero(): string {
         <section class="page-heading">
             <h1>Trainings</h1>
             <p>
-                From learning individual techniques to representing SMU at ICPC,
-                our training progressively develops both problem solving and
-                competition experience.
+                A one-year training program (2 semesters + summer) that concludes with an ICPC Selection Contest. 
             </p>
         </section>
     `
