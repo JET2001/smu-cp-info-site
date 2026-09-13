@@ -1,5 +1,4 @@
 import { renderFooter, renderHeader } from './shared'
-import './styles/shared.css'
 import './styles/trainings.css'
 import { sections } from './trainings/data'
 import type { TrainingSection } from './trainings/types'
