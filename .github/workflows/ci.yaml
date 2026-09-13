@@ -4,11 +4,16 @@ on:
     branches:
       - main
   pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-        
+    permissions:
+      contents: read
+      pull-requests: write
+
     steps:
       - name: checkout repository
         uses: actions/checkout@v6
@@ -34,3 +39,22 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Upload PR preview
+        if: >-
+          github.event_name == 'pull_request' &&
+          github.event.pull_request.base.ref == 'main' &&
+          github.event.pull_request.head.repo.full_name == github.repository
+        uses: cloudflare/wrangler-action@v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: versions upload --preview-alias pr-${{ github.event.pull_request.number }}
+
+      - name: Comment preview URL on PR
+        if: >-
+          github.event_name == 'pull_request' &&
+          github.event.pull_request.base.ref == 'main' &&
+          github.event.pull_request.head.repo.full_name == github.repository
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash scripts/comment-preview.sh "${{ github.event.pull_request.number }}"
