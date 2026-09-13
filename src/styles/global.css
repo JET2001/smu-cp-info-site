@@ -1,0 +1,52 @@
+/* Design tokens and base styles */
+
+:root {
+  --background: #fbfaf8;
+  --foreground: #181816;
+  --muted: #6d6b66;
+  --border: #d9d6cf;
+  --accent: #9e2a2b;
+  --max-width: 1120px;
+  --font-body: Inter, Arial, sans-serif;
+  --font-heading: Georgia, 'Times New Roman', serif;
+
+  font-family: var(--font-body);
+  color: var(--foreground);
+  background: var(--background);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--background);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.container {
+  width: min(var(--max-width), calc(100% - 48px));
+  margin: 0 auto;
+}
+
+/* Responsive container */
+
+@media (max-width: 760px) {
+  .container {
+    width: min(100% - 40px, var(--max-width));
+  }
+}
