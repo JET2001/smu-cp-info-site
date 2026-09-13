@@ -1,4 +1,3 @@
-import './styles/shared.css'
 import './styles/members.css'
 import { renderFooter, renderHeader } from './shared'
 import {

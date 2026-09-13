@@ -1,8 +1,12 @@
-/* Members */
+@import './shared.css';
+
+/* Page layout */
 
 .members-section {
   padding-bottom: 96px;
 }
+
+/* Desktop table */
 
 .table-wrapper {
   width: 100%;
@@ -43,13 +47,6 @@
   color: var(--muted);
 }
 
-.members-table .member-name {
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: 16px;
-
-  color: var(--foreground);
-}
-
 .members-table tbody tr {
   transition: background 120ms ease;
 }
@@ -58,13 +55,15 @@
   background: rgba(0, 0, 0, 0.018);
 }
 
-.rating-handle {
-  font-weight: 600;
-}
-
 .members-table a:hover {
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+/* Profile rating colors */
+
+.rating-handle {
+  font-weight: 600;
 }
 
 .cf-gray { color: #808080; }
@@ -87,6 +86,8 @@
 .rating-unrated {
   color: var(--muted);
 }
+
+/* Mobile member cards */
 
 .members-mobile {
   display: none;
