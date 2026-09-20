@@ -1,41 +1,55 @@
 # SMU CP Info Site
 
-The source for [info.smujudge.com](https://info.smujudge.com) — the public information site for SMU's competitive programming club. Built with Vite + TypeScript, deployed as a Cloudflare Worker.
+Source for [info.smujudge.com](https://info.smujudge.com). Implemented in vite, typescript and deployed on cloudflare pages.
 
-## Important: `main` is live
+## Notes
+1. `main` is continuously deployed to production
+2. `main` is NOT protected, but guards against force pushes and deletions.
+   - Why: I did want to make a PR only thing and protect main, but then i think my cron job can't commit directly to `main` (see point 9)
+3. `main` requires linear history. For feature changes, can rebase on `main` if possible.
+4. There is a Development Container that I use in  `.devcontainer/`. 
+5. Use Pull Requests where possible! When merging onto `main`, I configured preview urls (see [this closed PR](https://github.com/JET2001/smu-cp-info-site/pull/3#issuecomment-5655495756)) via github actions to let us see whether the changes are reflected there before deployment. This will only be created **as a PR comment** when the build on the incoming branch passes. This is implemented in `./scripts/comment-preview.sh`.
+   - **Potential Improvement:** My preview urls are actually public XD, means anyone can see them. I should delete them on once I closed the PR, but have yet to find some time to do that.
+   - In the preview URL, remember to check that the screen resizes properly! I have 2 views: one at a standard laptop screen, and then a "mobile view" when the screen size is less than `760px`. Currently I just check this by resizing my google chrome browser. If you have other ways, do let me know!
 
-The `main` branch is continuously deployed to production at **info.smujudge.com**. Do not push directly to `main`. Open a pull request and let CI pass before merging.
+### Notes on web pages and state of development
+6. The first two pages of the site is a static frontend, the images on `Trainings` are found in `src/assets/`
+7. Members page: Member data is found in a csv `public/data/members.csv`.
+8. Members page: On page load, we make a REST API call to the codeforces API to get CF ratings (see `src/api/codeforces.ts`).We are able to query multiple handles at once, but if there exists an invalid handle, the whole API call gets a `404` verdict, the error message will contain the first failing handle. The current method is this:
 
-## Getting started
+       A. Query all users if possible. If all handles are valid, then we return immediately. 
+       B. In the event of an error, we remove the failing handle, and make the same API call.
+       C. Skip over the failing handle, and mark this as the new start of the dataset. 
+       D. Repeat step A if we have not processed the full dataset. 
+      
+   There are some unit tests to test this functionality in `tests/api/codeforces.test.ts`.
 
-Use the provided Dev Container — it sets up the correct Node.js version and installs dependencies automatically.
+9. Atcoder ratings are read from `public/data/atcoder-ratings.json`. It is triggered by a github actions cron job at `.github/workflows/update_atcoder.yaml` **which runs weekly on Monday 8 am - 12 pm SGT** ([see its commit](https://github.com/JET2001/smu-cp-info-site/commit/a8729479fe50f2077e107560b4156643eccb49c7)). 
+   - Reasons: 
+      - There is no official API for Atcoder, and I am actually using the API by a member of the community (`@qatadaazzeh/atcoder-api`), which does this by downloading the page via `curl` and extracting the rating. 
+      - As such, it is _very slow_, and if I do this while page loads it will take about 30 seconds. 
+      - Atcoder Contests are generally held on weekends, so my data will most likely contain the updated rating by Monday noon.
 
-**Requirements:** Docker and the VS Code Dev Containers extension (or any editor with Dev Container support).
+10. Source HTML is currently at `members/`, `trainings/` and then `index.html` (for home page). I find this directory structure quite weird. Do let me know if there's a more logical way to combine all html sources
 
-1. Open the repository in VS Code
-2. When prompted, click **Reopen in Container** (or run `Dev Containers: Reopen in Container` from the command palette)
-3. The container runs `npm ci` on creation, so dependencies are ready immediately
-4. Start the dev server:
-   ```
-   npm run dev
-   ```
-   The site is available at `localhost:5173`.
+11. Styles - This has just been refactored a week ago! It was way convoluted back then. But I'm terrible at CSS, and now its slightly more readable. My separation of styling is as follows:
+    - `shared.css` - styling for fonts / HTML elements 
+    - `[home/trainings/members].css` - styling for [home / training / members] page only.
 
-## Project structure
+#### Project structure
 
 ```
 src/
-  members.ts          # Members page logic
-  members/
-    logic.ts          # Member filtering/sorting
-    types.ts          # Member type definitions
-  trainings/
-    data.ts           # Training section content
-    types.ts
-  api/
-    codeforces.ts     # Codeforces API client
+  members.ts          # page rendering for members
   constants.ts        # Rating band thresholds and external URLs
-  shared.ts
+  shared.ts           # helps me render nav links, header and footer, stuff common to every page
+  api/
+    codeforces.ts     # Codeforces API client (unit tested)
+  members.ts          # Members page logic
+  members/            # logic for members page and types
+    logic.ts          # dynamically loading the table and colors (this file is unit tested)
+  trainings/          # logic for trainings page and types
+    ...
 public/
   data/
     members.csv       # Member roster (name, Codeforces handle, AtCoder handle)
@@ -45,25 +59,7 @@ scripts/
 members/index.html    # Members page entry point
 trainings/index.html  # Trainings page entry point
 ```
-
-## Updating member data
-
-### Adding or editing members
-
-Edit `public/data/members.csv`. The columns are `name`, `codeforces_handle`, `atcoder_handle` (AtCoder handle is optional).
-
-### Updating AtCoder ratings
-
-AtCoder does not have a public API, so ratings are pre-fetched and cached in `public/data/atcoder-ratings.json`. This file is refreshed automatically by a cron job every Monday at 8:00 AM SGT — you do not need to update it manually.
-
-If you have a branch open over a Monday, pull the updated cache and rebase your changes on top of it before merging:
-
-```
-git fetch origin
-git rebase origin/main
-```
-
-## Common commands
+## Commands
 
 | Command | Description |
 |---|---|
@@ -73,7 +69,3 @@ git rebase origin/main
 | `npm run lint` | Run ESLint |
 | `npm test` | Run unit tests (Vitest) |
 | `npm run update:atcoder` | Refresh cached AtCoder ratings |
-
-## CI
-
-Every pull request runs the full CI pipeline: type checking, lint, unit tests, and a production build. All checks must pass before merging.
