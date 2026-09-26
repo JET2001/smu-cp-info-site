@@ -6,6 +6,7 @@ export function createAppRouter(queryClient: QueryClient) {
   return createRouter({
     routeTree,
     trailingSlash: 'always',
+    defaultPreload: 'viewport',
     context: { queryClient },
   });
 }
