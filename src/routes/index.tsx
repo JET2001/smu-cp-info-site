@@ -1,9 +1,15 @@
+import { createFileRoute } from '@tanstack/react-router';
+
 const principles = [
   "SMU Competitive Programming began in 2024 with SMU's first ICPC team since 2017. It has grown into a wider community for students interested in competitive programming and algorithmic problem solving.",
   'Today, the programme combines training and contests for students who enjoy logical problems and exploring ideas beyond the curriculum. It also provides a pathway for students seeking to represent SMU at ICPC.',
 ];
 
-export function HomePage() {
+export const Route = createFileRoute('/')({
+  component: HomePage,
+});
+
+function HomePage() {
   return (
     <main className="page-container">
       <section className="max-w-205 pt-24 pb-21 max-mobile:pt-22 max-mobile:pb-20">

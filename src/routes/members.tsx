@@ -1,4 +1,4 @@
-import { useLoaderData } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 import { cn } from 'cn';
 import { useEffect, useState, type ReactNode } from 'react';
 import { PageHeading } from '../components/PageHeading';
@@ -8,10 +8,16 @@ import {
   codeforcesUrl,
   loadAtcoderRatings,
   loadCodeforcesRatings,
+  loadMembers,
   ratingClass,
   vjudgeUrl,
 } from '../members/logic';
 import type { Member } from '../members/types';
+
+export const Route = createFileRoute('/members')({
+  loader: () => loadMembers(),
+  component: MembersPage,
+});
 
 const tableHeaders = ['Member', 'Codeforces', 'Atcoder', 'Vjudge', 'Note'];
 
@@ -20,8 +26,8 @@ const cellClasses =
   'border-b border-border px-4.5 py-4 text-left whitespace-nowrap text-muted';
 const headerCellClasses = `${cellClasses} text-label font-semibold uppercase tracking-widest`;
 
-export function MembersPage() {
-  const loadedMembers = useLoaderData({ from: '/members' });
+function MembersPage() {
+  const loadedMembers = Route.useLoaderData();
   const [members, setMembers] = useState(loadedMembers);
 
   useEffect(() => {
