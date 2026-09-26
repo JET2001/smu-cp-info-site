@@ -15,9 +15,11 @@ export function SiteHeader() {
           className="flex h-19 items-center justify-between border-b border-border max-mobile:h-auto max-mobile:items-start max-mobile:gap-5 max-mobile:py-5.5"
         >
           <div className="flex items-baseline gap-2.25">
-            <strong className="font-body text-base font-bold leading-[normal] tracking-[-0.02em] text-accent max-mobile:text-sm">
-              SMU Competitive Programming
-            </strong>
+            <Link to="/">
+              <strong className="font-body text-base font-bold leading-[normal] tracking-[-0.02em] text-accent max-mobile:text-sm">
+                SMU Competitive Programming
+              </strong>
+            </Link>
           </div>
 
           <div className="flex items-center gap-7.5 text-[13px] max-mobile:flex-wrap max-mobile:justify-end max-mobile:gap-3.75">
