@@ -1,7 +1,19 @@
+import { createFileRoute } from '@tanstack/react-router';
 import { PageHeading } from '../components/PageHeading';
 import { sections } from '../trainings/data';
 
-export function TrainingsPage() {
+export const Route = createFileRoute('/trainings')({
+  head: () => ({
+    meta: [
+      {
+        title: 'Training',
+      },
+    ],
+  }),
+  component: TrainingsPage,
+});
+
+function TrainingsPage() {
   return (
     <main>
       <div className="page-container">
