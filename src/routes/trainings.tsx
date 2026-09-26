@@ -1,16 +1,17 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { PageHeading } from '../components/PageHeading';
+import { pageMeta } from '../seo';
 import { sections } from '../trainings/data';
 
 export const Route = createFileRoute('/trainings')({
   component: TrainingsPage,
-  head: () => ({
-    meta: [
-      {
-        title: 'Trainings | SMU CP',
-      },
-    ],
-  }),
+  head: () =>
+    pageMeta({
+      title: 'Trainings',
+      description:
+        'A one-year training program (2 semesters + summer) that concludes with an ICPC Selection Contest.',
+      path: '/trainings/',
+    }),
 });
 
 function TrainingsPage() {

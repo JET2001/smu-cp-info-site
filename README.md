@@ -54,6 +54,8 @@ public/
   data/
     members.csv       # Member roster (name, Codeforces handle, AtCoder handle)
     atcoder-ratings.json  # Cached AtCoder ratings (see below)
+  robots.txt          # Allows all crawlers, points to the sitemap
+  sitemap.xml         # Lists the three site routes
 scripts/
   update-atcoder-ratings.ts  # Fetches and caches AtCoder ratings
 index.html            # Single HTML entry point
