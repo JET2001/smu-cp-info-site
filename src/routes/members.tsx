@@ -1,17 +1,24 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
 import { PageHeading } from '../components/PageHeading';
+import { MembersMobile } from '../members/components/MembersMobile';
+import { MembersTable } from '../members/components/MembersTable';
 import {
   loadAtcoderRatings,
   loadCodeforcesRatings,
   loadMembers,
 } from '../members/logic';
-import { MembersMobile } from '../members/components/MembersMobile';
-import { MembersTable } from '../members/components/MembersTable';
 
 export const Route = createFileRoute('/members')({
   loader: () => loadMembers(),
   component: MembersPage,
+  head: () => ({
+    meta: [
+      {
+        title: 'Members | SMU CP',
+      },
+    ],
+  }),
 });
 
 function MembersPage() {
