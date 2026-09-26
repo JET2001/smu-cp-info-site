@@ -5,3 +5,4 @@
 - Prefer `type` over `interface`
 - Prefer omitting function return types, and let typescript infer return types
 - When combining classnames, use the `cn` package's `cn` function
+- Avoid em-dashes - Prefer normal dashes instead
