@@ -6,3 +6,4 @@
 - Prefer omitting function return types, and let typescript infer return types
 - When combining classnames, use the `cn` package's `cn` function
 - Avoid em-dashes - Prefer normal dashes instead
+- When making API calls, use Tanstack query's `useQuery` or `useMutation` to manage state

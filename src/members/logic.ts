@@ -8,29 +8,23 @@ import {
 
 import { type Member } from './types';
 
-export async function loadCodeforcesRatings(members: Member[]): Promise<void> {
+async function loadCodeforcesRatings(members: Member[]) {
   const handles = members
     .map((member) => member.codeforces)
     .filter((handle): handle is string => handle !== undefined);
 
-  if (handles.length === 0) return;
+  if (handles.length === 0) return new Map<string, number>();
 
   const users = await getCodeforcesUsers(handles);
 
-  const ratings = new Map(
+  return new Map(
     users
       .filter((user) => user.rating !== undefined)
       .map((user) => [user.handle.toLowerCase(), user.rating!]),
   );
-
-  for (const member of members) {
-    if (!member.codeforces) continue;
-
-    member.codeforcesRating = ratings.get(member.codeforces.toLowerCase());
-  }
 }
 
-export function parseMembers(csv: string): Member[] {
+export function parseMembers(csv: string) {
   const lines = csv.trim().split(/\r?\n/);
 
   return lines.slice(1).map((line) => {
@@ -46,7 +40,7 @@ export function parseMembers(csv: string): Member[] {
   });
 }
 
-export async function loadMembers(): Promise<Member[]> {
+export async function loadMembers() {
   const response = await fetch('/data/members.csv');
 
   if (!response.ok) {
@@ -55,36 +49,59 @@ export async function loadMembers(): Promise<Member[]> {
 
   return parseMembers(await response.text());
 }
-export async function loadAtcoderRatings(members: Member[]): Promise<void> {
+async function loadAtcoderRatings() {
   const response = await fetch('/data/atcoder-ratings.json');
 
   if (!response.ok) {
     throw new Error(`Could not load AtCoder ratings: ${response.status}`);
   }
 
-  const ratings = (await response.json()) as Record<string, number>;
-
-  for (const member of members) {
-    if (!member.atcoder) continue;
-    member.atcoderRating = ratings[member.atcoder.toLowerCase()];
-  }
+  return (await response.json()) as Record<string, number>;
 }
-export function codeforcesUrl(handle: string): string {
+
+export async function loadMemberRatings(members: Member[]) {
+  const [codeforcesResult, atcoderResult] = await Promise.allSettled([
+    loadCodeforcesRatings(members),
+    loadAtcoderRatings(),
+  ]);
+
+  const codeforcesRatings =
+    codeforcesResult.status === 'fulfilled'
+      ? codeforcesResult.value
+      : new Map<string, number>();
+  const atcoderRatings =
+    atcoderResult.status === 'fulfilled'
+      ? atcoderResult.value
+      : ({} as Record<string, number>);
+
+  return members.map((member) => ({
+    ...member,
+    codeforcesRating:
+      member.codeforces === undefined
+        ? undefined
+        : codeforcesRatings.get(member.codeforces.toLowerCase()),
+    atcoderRating:
+      member.atcoder === undefined
+        ? undefined
+        : atcoderRatings[member.atcoder.toLowerCase()],
+  }));
+}
+export function codeforcesUrl(handle: string) {
   return `${CODEFORCES_URL}/${encodeURIComponent(handle)}`;
 }
 
-export function atcoderUrl(handle: string): string {
+export function atcoderUrl(handle: string) {
   return `${ATCODER_URL}/${encodeURIComponent(handle)}`;
 }
 
-export function vjudgeUrl(handle: string): string {
+export function vjudgeUrl(handle: string) {
   return `${VJUDGE_URL}/${encodeURIComponent(handle)}`;
 }
 
 export function ratingClass(
   rating: number | undefined,
   bands: readonly RatingBand[],
-): string {
+) {
   if (rating === undefined) return 'text-muted';
 
   const index = bands.findLastIndex(([threshold]) => rating >= threshold);
