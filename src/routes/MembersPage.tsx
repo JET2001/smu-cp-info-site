@@ -1,8 +1,8 @@
-import { useLoaderData } from "@tanstack/react-router";
-import { cn } from "cn";
-import { useEffect, useState, type ReactNode } from "react";
-import { PageHeading } from "../components/PageHeading";
-import { ATCODER_BANDS, CODEFORCES_BANDS, type RatingBand } from "../constants";
+import { useLoaderData } from '@tanstack/react-router';
+import { cn } from 'cn';
+import { useEffect, useState, type ReactNode } from 'react';
+import { PageHeading } from '../components/PageHeading';
+import { ATCODER_BANDS, CODEFORCES_BANDS, type RatingBand } from '../constants';
 import {
   atcoderUrl,
   codeforcesUrl,
@@ -10,18 +10,18 @@ import {
   loadCodeforcesRatings,
   ratingClass,
   vjudgeUrl,
-} from "../members/logic";
-import type { Member } from "../members/types";
+} from '../members/logic';
+import type { Member } from '../members/types';
 
-const tableHeaders = ["Member", "Codeforces", "Atcoder", "Vjudge", "Note"];
+const tableHeaders = ['Member', 'Codeforces', 'Atcoder', 'Vjudge', 'Note'];
 
-const tableLinkClasses = "hover:underline hover:underline-offset-[3px]";
+const tableLinkClasses = 'hover:underline hover:underline-offset-[3px]';
 const cellClasses =
-  "border-b border-border px-4.5 py-4 text-left whitespace-nowrap text-muted";
+  'border-b border-border px-4.5 py-4 text-left whitespace-nowrap text-muted';
 const headerCellClasses = `${cellClasses} text-label font-semibold uppercase tracking-widest`;
 
 export function MembersPage() {
-  const loadedMembers = useLoaderData({ from: "/members" });
+  const loadedMembers = useLoaderData({ from: '/members' });
   const [members, setMembers] = useState(loadedMembers);
 
   useEffect(() => {
@@ -74,7 +74,7 @@ function RatingHandleLink({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className={cn("font-semibold", ratingClass(rating, bands), className)}
+      className={cn('font-semibold', ratingClass(rating, bands), className)}
     >
       {children}
     </a>
@@ -112,7 +112,7 @@ function MembersTable({ members }: { members: Member[] }) {
                     {member.codeforces}
                   </RatingHandleLink>
                 ) : (
-                  "-"
+                  '-'
                 )}
               </td>
               <td className={cellClasses}>
@@ -126,7 +126,7 @@ function MembersTable({ members }: { members: Member[] }) {
                     {member.atcoder}
                   </RatingHandleLink>
                 ) : (
-                  "-"
+                  '-'
                 )}
               </td>
               <td className={cellClasses}>
@@ -140,10 +140,10 @@ function MembersTable({ members }: { members: Member[] }) {
                     {member.vjudge}
                   </a>
                 ) : (
-                  "-"
+                  '-'
                 )}
               </td>
-              <td className={cellClasses}>{member.remarks ?? "-"}</td>
+              <td className={cellClasses}>{member.remarks ?? '-'}</td>
             </tr>
           ))}
         </tbody>

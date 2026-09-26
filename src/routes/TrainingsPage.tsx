@@ -1,5 +1,5 @@
-import { PageHeading } from '../components/PageHeading'
-import { sections } from '../trainings/data'
+import { PageHeading } from '../components/PageHeading';
+import { sections } from '../trainings/data';
 
 export function TrainingsPage() {
   return (
@@ -16,11 +16,11 @@ export function TrainingsPage() {
               key={section.title}
               className="grid grid-cols-[72px_minmax(0,1fr)_300px] gap-7 border-t border-border py-11 max-tablet:grid-cols-[60px_minmax(0,1fr)] max-xs:grid-cols-1 max-xs:gap-3.5"
             >
-              <span className="pt-[3px] font-heading text-[13px] text-accent">
+              <span className="pt-0.75 font-heading text-[13px] text-accent">
                 {String(index + 1).padStart(2, '0')}
               </span>
 
-              <div className="max-w-[560px]">
+              <div className="max-w-140">
                 <p className="mb-2 text-label font-semibold uppercase tracking-label text-accent">
                   {section.eyebrow.split('·')[1]}
                 </p>
@@ -33,13 +33,13 @@ export function TrainingsPage() {
               </div>
 
               <div className="flex flex-col items-end gap-2.5 max-tablet:col-start-2 max-tablet:mt-2 max-tablet:items-start max-xs:col-start-1">
-                {section.images.map(image => (
+                {section.images.map((image) => (
                   <img
                     key={image.src}
                     src={image.src}
                     alt={image.alt}
                     loading="lazy"
-                    className="block h-[170px] w-[280px] object-cover max-xs:h-auto max-xs:w-[min(100%,_420px)]"
+                    className="block h-42.5 w-70 object-cover max-xs:h-auto max-xs:w-[min(100%,420px)]"
                   />
                 ))}
               </div>
@@ -48,5 +48,5 @@ export function TrainingsPage() {
         </div>
       </div>
     </main>
-  )
+  );
 }

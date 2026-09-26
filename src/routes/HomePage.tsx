@@ -1,17 +1,17 @@
 const principles = [
   "SMU Competitive Programming began in 2024 with SMU's first ICPC team since 2017. It has grown into a wider community for students interested in competitive programming and algorithmic problem solving.",
-  "Today, the programme combines training and contests for students who enjoy logical problems and exploring ideas beyond the curriculum. It also provides a pathway for students seeking to represent SMU at ICPC.",
+  'Today, the programme combines training and contests for students who enjoy logical problems and exploring ideas beyond the curriculum. It also provides a pathway for students seeking to represent SMU at ICPC.',
 ];
 
 export function HomePage() {
   return (
     <main className="page-container">
-      <section className="max-w-[820px] pt-24 pb-21 max-mobile:pt-22 max-mobile:pb-20">
+      <section className="max-w-205 pt-24 pb-21 max-mobile:pt-22 max-mobile:pb-20">
         <p className="mb-4.5 text-label font-semibold uppercase tracking-label text-accent">
           Singapore Management University
         </p>
 
-        <h1 className="max-w-190 font-heading text-[clamp(52px,_6.5vw,_78px)] font-normal leading-[0.98] tracking-[-0.045em] max-mobile:text-[clamp(50px,_15vw,_70px)]">
+        <h1 className="max-w-190 font-heading text-[clamp(52px,6.5vw,78px)] font-normal leading-[0.98] tracking-[-0.045em] max-mobile:text-[clamp(50px,_15vw,_70px)]">
           Competitive
           <br />
           Programming

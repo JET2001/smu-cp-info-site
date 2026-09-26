@@ -1,9 +1,9 @@
-import { type TrainingSection } from "./types"
+import { type TrainingSection } from './types';
 
-import problemsetsImage from '../assets/problemsets.png'
-import teamContestsImage from '../assets/team-contests.png'
-import selectionImage from '../assets/selection.png'
-import icpcImage from '../assets/icpc.png'
+import icpcImage from '../assets/icpc.png';
+import problemsetsImage from '../assets/problemsets.png';
+import selectionImage from '../assets/selection.png';
+import teamContestsImage from '../assets/team-contests.png';
 
 export const sections: TrainingSection[] = [
   {
@@ -54,4 +54,4 @@ export const sections: TrainingSection[] = [
       },
     ],
   },
-]
+];
