@@ -1,4 +1,4 @@
-export interface TrainingSection {
+export type TrainingSection = {
   eyebrow: string
   title: string
   description: string

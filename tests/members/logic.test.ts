@@ -78,7 +78,7 @@ describe('ratingClass', () => {
   it('returns unrated for undefined rating', () => {
     expect(
       ratingClass(undefined, CODEFORCES_BANDS),
-    ).toBe('rating-unrated')
+    ).toBe('text-muted')
   })
 
   it('returns unrated when below the lowest band', () => {
@@ -87,7 +87,7 @@ describe('ratingClass', () => {
       [1500, 'rating-high'],
     ] as const
 
-    expect(ratingClass(999, bands)).toBe('rating-unrated')
+    expect(ratingClass(999, bands)).toBe('text-muted')
   })
 
   it('selects the exact threshold', () => {
