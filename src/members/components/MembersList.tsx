@@ -1,4 +1,5 @@
 import { cn } from 'cn';
+import { MotionConfig, motion } from 'motion/react';
 import { ATCODER_BANDS, CODEFORCES_BANDS } from '../../constants';
 import { atcoderUrl, codeforcesUrl, vjudgeUrl } from '../logic';
 import type { Member } from '../types';
@@ -15,6 +16,9 @@ const headerCellClasses = cn(
   'text-label font-semibold uppercase tracking-widest',
 );
 
+// Early rows cascade in, later rows catch up together so the tail never lags
+const enterDelay = (index: number) => Math.min(index * 0.04, 0.4);
+
 type MembersListProps = {
   members: Member[];
   isLoading: boolean;
@@ -22,17 +26,30 @@ type MembersListProps = {
 
 export function MembersList({ members, isLoading }: MembersListProps) {
   return (
-    <div className="border-t border-border">
-      <div className="w-full overflow-x-auto max-mobile:hidden">
-        <MembersTable members={members} isLoading={isLoading} />
-      </div>
+    <MotionConfig reducedMotion="user">
+      <div className="border-t border-border">
+        <div className="w-full overflow-x-auto max-mobile:hidden">
+          <MembersTable members={members} isLoading={isLoading} />
+        </div>
 
-      <div className="hidden max-mobile:block">
-        {members.map((member, index) => (
-          <MemberCard key={index} member={member} isLoading={isLoading} />
-        ))}
+        <div className="hidden max-mobile:block">
+          {members.map((member, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.3,
+                ease: 'easeOut',
+                delay: enterDelay(index),
+              }}
+            >
+              <MemberCard member={member} isLoading={isLoading} />
+            </motion.div>
+          ))}
+        </div>
       </div>
-    </div>
+    </MotionConfig>
   );
 }
 
@@ -55,8 +72,17 @@ function MembersTable({ members, isLoading }: MembersTableProps) {
       </thead>
       <tbody>
         {members.map((member, index) => (
-          <tr
+          // Fade only: a y-drift extends the overflow-x-auto wrapper's
+          // scrollable overflow and flashes a scrollbar while rows settle
+          <motion.tr
             key={index}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{
+              duration: 0.3,
+              ease: 'easeOut',
+              delay: enterDelay(index),
+            }}
             className="transition-colors duration-120 hover:bg-[rgba(0,0,0,0.018)]"
           >
             <td className={cellClasses}>{member.name}</td>
@@ -105,7 +131,7 @@ function MembersTable({ members, isLoading }: MembersTableProps) {
               )}
             </td>
             <td className={cellClasses}>{member.remarks ?? '-'}</td>
-          </tr>
+          </motion.tr>
         ))}
       </tbody>
     </table>

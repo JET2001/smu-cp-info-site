@@ -7,3 +7,4 @@
 - When combining classnames, use the `cn` package's `cn` function
 - Avoid em-dashes - Prefer normal dashes instead
 - When making API calls, use Tanstack query's `useQuery` or `useMutation` to manage state
+- For animations, use the `motion` library. In general, don't go too wild with the animations - prefer subtle micro-animations unless explicitly stated
