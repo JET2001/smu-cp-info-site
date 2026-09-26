@@ -1,10 +1,10 @@
-import { Link } from '@tanstack/react-router'
+import { Link } from '@tanstack/react-router';
 
-const archiveUrl = 'https://archive.smujudge.com/index.html'
+const archiveUrl = 'https://archive.smujudge.com/index.html';
 
-const baseLinkClasses = 'transition-colors duration-[120ms]'
-const activeLinkClasses = 'text-foreground'
-const inactiveLinkClasses = 'text-muted hover:text-foreground'
+const baseLinkClasses = 'transition-colors duration-[120ms]';
+const activeLinkClasses = 'text-foreground';
+const inactiveLinkClasses = 'text-muted hover:text-foreground';
 
 export function SiteHeader() {
   return (
@@ -58,5 +58,5 @@ export function SiteHeader() {
         </nav>
       </div>
     </header>
-  )
+  );
 }

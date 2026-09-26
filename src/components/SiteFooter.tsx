@@ -6,5 +6,5 @@ export function SiteFooter() {
         <span>Singapore Management University</span>
       </footer>
     </div>
-  )
+  );
 }
