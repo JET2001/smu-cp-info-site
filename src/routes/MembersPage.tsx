@@ -1,4 +1,5 @@
 import { useLoaderData } from "@tanstack/react-router";
+import { cn } from "cn";
 import { useEffect, useState, type ReactNode } from "react";
 import { PageHeading } from "../components/PageHeading";
 import { ATCODER_BANDS, CODEFORCES_BANDS, type RatingBand } from "../constants";
@@ -65,7 +66,7 @@ function RatingHandleLink({
   href,
   rating,
   bands,
-  className = "",
+  className,
   children,
 }: RatingHandleLinkProps) {
   return (
@@ -73,7 +74,7 @@ function RatingHandleLink({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className={`font-semibold ${ratingClass(rating, bands)} ${className}`}
+      className={cn("font-semibold", ratingClass(rating, bands), className)}
     >
       {children}
     </a>
