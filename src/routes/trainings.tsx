@@ -3,14 +3,14 @@ import { PageHeading } from '../components/PageHeading';
 import { sections } from '../trainings/data';
 
 export const Route = createFileRoute('/trainings')({
+  component: TrainingsPage,
   head: () => ({
     meta: [
       {
-        title: 'Training',
+        title: 'Trainings | SMU CP',
       },
     ],
   }),
-  component: TrainingsPage,
 });
 
 function TrainingsPage() {

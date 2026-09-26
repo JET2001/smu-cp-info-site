@@ -1,15 +1,20 @@
-import { createRootRoute, Outlet } from '@tanstack/react-router';
+import { createRootRoute, HeadContent, Outlet } from '@tanstack/react-router';
 import { PageHeading } from '../components/PageHeading';
 import { SiteFooter } from '../components/SiteFooter';
 import { SiteHeader } from '../components/SiteHeader';
 
 function RootLayout() {
   return (
-    <>
-      <SiteHeader />
-      <Outlet />
-      <SiteFooter />
-    </>
+    <html>
+      <head>
+        <HeadContent />
+      </head>
+      <body>
+        <SiteHeader />
+        <Outlet />
+        <SiteFooter />
+      </body>
+    </html>
   );
 }
 
