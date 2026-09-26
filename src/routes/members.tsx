@@ -1,16 +1,17 @@
-import { useQuery } from '@tanstack/react-query';
+import { queryOptions, useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { PageHeading } from '../components/PageHeading';
-import { MembersMobile } from '../members/components/MembersMobile';
-import { MembersTable } from '../members/components/MembersTable';
+import { MembersList } from '../members/components/MembersList';
 import { loadMemberRatings, loadMembers } from '../members/logic';
+
+const memberQueryOptions = queryOptions({
+  queryKey: ['members'],
+  queryFn: loadMembers,
+});
 
 export const Route = createFileRoute('/members')({
   loader: ({ context }) =>
-    context.queryClient.ensureQueryData({
-      queryKey: ['members'],
-      queryFn: loadMembers,
-    }),
+    context.queryClient.query({ ...memberQueryOptions, staleTime: 'static' }),
   component: MembersPage,
   head: () => ({
     meta: [
@@ -22,12 +23,9 @@ export const Route = createFileRoute('/members')({
 });
 
 function MembersPage() {
-  const { data: members = [] } = useQuery({
-    queryKey: ['members'],
-    queryFn: loadMembers,
-  });
+  const { data: members = [] } = useQuery(memberQueryOptions);
 
-  const { data: ratedMembers } = useQuery({
+  const { data: ratedMembers, isLoading: isRatingsLoading } = useQuery({
     queryKey: ['member-ratings'],
     queryFn: () => loadMemberRatings(members),
     enabled: members.length > 0,
@@ -44,8 +42,7 @@ function MembersPage() {
       />
 
       <section className="pb-24">
-        <MembersTable members={membersToShow} />
-        <MembersMobile members={membersToShow} />
+        <MembersList members={membersToShow} isLoading={isRatingsLoading} />
       </section>
     </main>
   );
