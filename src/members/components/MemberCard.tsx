@@ -6,9 +6,10 @@ import { RatingHandleLink } from './RatingHandleLink';
 
 type MemberCardProps = {
   member: Member;
+  isLoading: boolean;
 };
 
-export function MemberCard({ member }: MemberCardProps) {
+export function MemberCard({ member, isLoading }: MemberCardProps) {
   return (
     <article className="border-b border-border px-2.5 py-4.5">
       <h2 className="mb-3 text-sm font-normal leading-[1.5] text-muted">
@@ -22,6 +23,7 @@ export function MemberCard({ member }: MemberCardProps) {
               href={codeforcesUrl(member.codeforces)}
               rating={member.codeforcesRating}
               bands={CODEFORCES_BANDS}
+              isLoading={isLoading}
             >
               {member.codeforces}
             </RatingHandleLink>
@@ -33,6 +35,7 @@ export function MemberCard({ member }: MemberCardProps) {
               href={atcoderUrl(member.atcoder)}
               rating={member.atcoderRating}
               bands={ATCODER_BANDS}
+              isLoading={isLoading}
             >
               {member.atcoder}
             </RatingHandleLink>

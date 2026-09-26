@@ -8,6 +8,7 @@ type RatingHandleLinkProps = {
   rating: number | undefined;
   bands: readonly RatingBand[];
   className?: string;
+  isLoading: boolean;
   children: ReactNode;
 };
 
@@ -16,14 +17,21 @@ export function RatingHandleLink({
   rating,
   bands,
   className,
+  isLoading,
   children,
 }: RatingHandleLinkProps) {
   return (
     <a
-      href={href}
+      href={isLoading ? undefined : href}
       target="_blank"
       rel="noopener noreferrer"
-      className={cn('font-semibold', ratingClass(rating, bands), className)}
+      className={cn(
+        'font-semibold transition-colors duration-300',
+        isLoading
+          ? 'animate-shimmer bg-linear-to-r bg-clip-text bg-size-[200%_100%] from-muted/40 via-muted to-muted/40 text-transparent'
+          : ratingClass(rating, bands),
+        className,
+      )}
     >
       {children}
     </a>
