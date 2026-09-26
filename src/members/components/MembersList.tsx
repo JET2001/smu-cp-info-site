@@ -15,35 +15,22 @@ const headerCellClasses = cn(
   'text-label font-semibold uppercase tracking-widest',
 );
 
-const skeletonCellWidths = ['w-32', 'w-24', 'w-24', 'w-20', 'w-40'];
-const defaultSkeletonRowCount = 8;
-
 type MembersListProps = {
   members: Member[];
   isLoading: boolean;
 };
 
 export function MembersList({ members, isLoading }: MembersListProps) {
-  const skeletonRowCount = members.length || defaultSkeletonRowCount;
-
   return (
     <div className="border-t border-border">
       <div className="w-full overflow-x-auto max-mobile:hidden">
-        {isLoading ? (
-          <TableSkeleton rowCount={skeletonRowCount} />
-        ) : (
-          <MembersTable members={members} />
-        )}
+        <MembersTable members={members} isLoading={isLoading} />
       </div>
 
       <div className="hidden max-mobile:block">
-        {isLoading
-          ? Array.from({ length: skeletonRowCount }, (_, index) => (
-              <CardSkeleton key={index} />
-            ))
-          : members.map((member, index) => (
-              <MemberCard key={index} member={member} />
-            ))}
+        {members.map((member, index) => (
+          <MemberCard key={index} member={member} isLoading={isLoading} />
+        ))}
       </div>
     </div>
   );
@@ -51,9 +38,10 @@ export function MembersList({ members, isLoading }: MembersListProps) {
 
 type MembersTableProps = {
   members: Member[];
+  isLoading: boolean;
 };
 
-function MembersTable({ members }: MembersTableProps) {
+function MembersTable({ members, isLoading }: MembersTableProps) {
   return (
     <table className="w-full min-w-180 border-collapse text-sm leading-[normal]">
       <thead>
@@ -79,6 +67,7 @@ function MembersTable({ members }: MembersTableProps) {
                   rating={member.codeforcesRating}
                   bands={CODEFORCES_BANDS}
                   className={tableLinkClasses}
+                  isLoading={isLoading}
                 >
                   {member.codeforces}
                 </RatingHandleLink>
@@ -93,6 +82,7 @@ function MembersTable({ members }: MembersTableProps) {
                   rating={member.atcoderRating}
                   bands={ATCODER_BANDS}
                   className={tableLinkClasses}
+                  isLoading={isLoading}
                 >
                   {member.atcoder}
                 </RatingHandleLink>
@@ -119,53 +109,5 @@ function MembersTable({ members }: MembersTableProps) {
         ))}
       </tbody>
     </table>
-  );
-}
-
-function Skeleton({ className }: { className?: string }) {
-  return (
-    <div
-      className={cn('h-3.5 animate-pulse rounded-full bg-border/60', className)}
-    />
-  );
-}
-
-function TableSkeleton({ rowCount }: { rowCount: number }) {
-  return (
-    <table className="w-full min-w-180 border-collapse text-sm leading-[normal]">
-      <thead>
-        <tr>
-          {tableHeaders.map((header) => (
-            <th key={header} className={headerCellClasses}>
-              {header}
-            </th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {Array.from({ length: rowCount }, (_, row) => (
-          <tr key={row}>
-            {skeletonCellWidths.map((width, cell) => (
-              <td key={cell} className={cellClasses}>
-                <Skeleton className={width} />
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-}
-
-function CardSkeleton() {
-  return (
-    <article className="border-b border-border px-2.5 py-4.5">
-      <Skeleton className="w-28" />
-      <div className="mt-3 grid gap-1.75">
-        <Skeleton className="w-32" />
-        <Skeleton className="w-24" />
-        <Skeleton className="w-20" />
-      </div>
-    </article>
   );
 }

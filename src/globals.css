@@ -21,6 +21,18 @@
 
   /* Original transitions all used `ease` */
   --default-transition-timing-function: ease;
+
+  /* Skeleton text: shimmer sweep, paired with bg-size-[200%_100%] */
+  --animate-shimmer: shimmer 1.5s linear infinite;
+
+  @keyframes shimmer {
+    from {
+      background-position: 200% 0;
+    }
+    to {
+      background-position: -200% 0;
+    }
+  }
 }
 
 @layer base {
