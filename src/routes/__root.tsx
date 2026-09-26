@@ -2,10 +2,10 @@ import { type QueryClient } from '@tanstack/react-query';
 import {
   createRootRouteWithContext,
   HeadContent,
-  Outlet,
 } from '@tanstack/react-router';
 import { useEffect } from 'react';
 import { PageHeading } from '../components/PageHeading';
+import { PageTransition } from '../components/PageTransition';
 import { SiteFooter } from '../components/SiteFooter';
 import { SiteHeader } from '../components/SiteHeader';
 import { SITE_NAME, SITE_URL } from '../constants';
@@ -35,7 +35,7 @@ function RootLayout() {
     <>
       <HeadContent />
       <SiteHeader />
-      <Outlet />
+      <PageTransition />
       <SiteFooter />
     </>
   );
