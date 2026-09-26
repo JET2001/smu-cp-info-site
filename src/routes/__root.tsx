@@ -1,7 +1,16 @@
-import { createRootRoute, HeadContent, Outlet } from '@tanstack/react-router';
+import { type QueryClient } from '@tanstack/react-query';
+import {
+  createRootRouteWithContext,
+  HeadContent,
+  Outlet,
+} from '@tanstack/react-router';
 import { PageHeading } from '../components/PageHeading';
 import { SiteFooter } from '../components/SiteFooter';
 import { SiteHeader } from '../components/SiteHeader';
+
+export type RouterAppContext = {
+  queryClient: QueryClient;
+};
 
 function RootLayout() {
   return (
@@ -29,7 +38,7 @@ function NotFoundPage() {
   );
 }
 
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext<RouterAppContext>()({
   component: RootLayout,
   notFoundComponent: NotFoundPage,
   head: () => ({

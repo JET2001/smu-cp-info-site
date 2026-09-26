@@ -1,16 +1,16 @@
+import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
-import { useEffect, useState } from 'react';
 import { PageHeading } from '../components/PageHeading';
 import { MembersMobile } from '../members/components/MembersMobile';
 import { MembersTable } from '../members/components/MembersTable';
-import {
-  loadAtcoderRatings,
-  loadCodeforcesRatings,
-  loadMembers,
-} from '../members/logic';
+import { loadMemberRatings, loadMembers } from '../members/logic';
 
 export const Route = createFileRoute('/members')({
-  loader: () => loadMembers(),
+  loader: ({ context }) =>
+    context.queryClient.ensureQueryData({
+      queryKey: ['members'],
+      queryFn: loadMembers,
+    }),
   component: MembersPage,
   head: () => ({
     meta: [
@@ -22,23 +22,19 @@ export const Route = createFileRoute('/members')({
 });
 
 function MembersPage() {
-  const loadedMembers = Route.useLoaderData();
-  const [members, setMembers] = useState(loadedMembers);
+  const { data: members = [] } = useQuery({
+    queryKey: ['members'],
+    queryFn: loadMembers,
+  });
 
-  useEffect(() => {
-    let active = true;
+  const { data: ratedMembers } = useQuery({
+    queryKey: ['member-ratings'],
+    queryFn: () => loadMemberRatings(members),
+    enabled: members.length > 0,
+    staleTime: 5 * 60 * 1000,
+  });
 
-    void Promise.allSettled([
-      loadCodeforcesRatings(loadedMembers),
-      loadAtcoderRatings(loadedMembers),
-    ]).then(() => {
-      if (active) setMembers([...loadedMembers]);
-    });
-
-    return () => {
-      active = false;
-    };
-  }, [loadedMembers]);
+  const membersToShow = ratedMembers ?? members;
 
   return (
     <main className="page-container">
@@ -48,8 +44,8 @@ function MembersPage() {
       />
 
       <section className="pb-24">
-        <MembersTable members={members} />
-        <MembersMobile members={members} />
+        <MembersTable members={membersToShow} />
+        <MembersMobile members={membersToShow} />
       </section>
     </main>
   );

@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { getCodeforcesUsers } from "../../src/api/codeforces";
 import {
   ATCODER_URL,
@@ -9,7 +9,7 @@ import {
 import {
   atcoderUrl,
   codeforcesUrl,
-  loadCodeforcesRatings,
+  loadMemberRatings,
   parseMembers,
   ratingClass,
   vjudgeUrl,
@@ -147,14 +147,26 @@ vi.mock("../../src/api/codeforces", () => ({
 
 const mockGetCodeforcesUsers = vi.mocked(getCodeforcesUsers);
 
-describe("loadCodeforcesRatings", () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
+describe("loadMemberRatings", () => {
+  const mockFetch = vi.fn();
+
+  const atcoderResponse = (ratings: Record<string, number>) => ({
+    ok: true,
+    json: async () => ratings,
   });
 
-  it("loads and assigns Codeforces ratings", async () => {
-    const members = [
-      { name: "Alice", codeforces: "tourist" },
+  beforeEach(() => {
+    vi.clearAllMocks();
+    vi.stubGlobal("fetch", mockFetch);
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it("loads and assigns ratings from both sources", async () => {
+    const members: Member[] = [
+      { name: "Alice", codeforces: "tourist", atcoder: "chokudai" },
       { name: "Bob", codeforces: "Petr" },
     ];
 
@@ -162,16 +174,19 @@ describe("loadCodeforcesRatings", () => {
       { handle: "tourist", rating: 3858 },
       { handle: "Petr", rating: 3519 },
     ]);
+    mockFetch.mockResolvedValue(atcoderResponse({ chokudai: 4200 }));
 
-    await loadCodeforcesRatings(members);
+    const ratedMembers = await loadMemberRatings(members);
 
     expect(mockGetCodeforcesUsers).toHaveBeenCalledWith(["tourist", "Petr"]);
 
-    expect(members).toEqual([
+    expect(ratedMembers).toEqual([
       {
         name: "Alice",
         codeforces: "tourist",
+        atcoder: "chokudai",
         codeforcesRating: 3858,
+        atcoderRating: 4200,
       },
       {
         name: "Bob",
@@ -181,25 +196,41 @@ describe("loadCodeforcesRatings", () => {
     ]);
   });
 
-  it("matches handles case-insensitively", async () => {
-    const members: Member[] = [{ name: "Alice", codeforces: "Tourist" }];
+  it("does not mutate the input members", async () => {
+    const members: Member[] = [{ name: "Alice", codeforces: "tourist" }];
 
     mockGetCodeforcesUsers.mockResolvedValue([
       { handle: "tourist", rating: 3858 },
     ]);
+    mockFetch.mockResolvedValue(atcoderResponse({}));
 
-    await loadCodeforcesRatings(members);
+    await loadMemberRatings(members);
 
-    expect(members[0].codeforcesRating).toBe(3858);
+    expect(members[0]).toEqual({ name: "Alice", codeforces: "tourist" });
+  });
+
+  it("matches handles case-insensitively", async () => {
+    const members: Member[] = [
+      { name: "Alice", codeforces: "Tourist", atcoder: "Chokudai" },
+    ];
+
+    mockGetCodeforcesUsers.mockResolvedValue([
+      { handle: "tourist", rating: 3858 },
+    ]);
+    mockFetch.mockResolvedValue(atcoderResponse({ chokudai: 4200 }));
+
+    const ratedMembers = await loadMemberRatings(members);
+
+    expect(ratedMembers[0].codeforcesRating).toBe(3858);
+    expect(ratedMembers[0].atcoderRating).toBe(4200);
   });
 
   it("does not call the API when there are no Codeforces handles", async () => {
-    const members: Member[] = [
-      { name: "Alice" },
-      { name: "Bob", atcoder: "bob" },
-    ];
+    const members: Member[] = [{ name: "Alice", atcoder: "bob" }];
 
-    await loadCodeforcesRatings(members);
+    mockFetch.mockResolvedValue(atcoderResponse({}));
+
+    await loadMemberRatings(members);
 
     expect(mockGetCodeforcesUsers).not.toHaveBeenCalled();
   });
@@ -213,32 +244,54 @@ describe("loadCodeforcesRatings", () => {
     mockGetCodeforcesUsers.mockResolvedValue([
       { handle: "tourist", rating: 3858 },
     ]);
+    mockFetch.mockResolvedValue(atcoderResponse({}));
 
-    await loadCodeforcesRatings(members);
+    const ratedMembers = await loadMemberRatings(members);
 
-    expect(members[0].codeforcesRating).toBe(3858);
-    expect(members[1].codeforcesRating).toBeUndefined();
+    expect(ratedMembers[0].codeforcesRating).toBe(3858);
+    expect(ratedMembers[1].codeforcesRating).toBeUndefined();
   });
 
   it("ignores unrated Codeforces users", async () => {
     const members: Member[] = [{ name: "Alice", codeforces: "new_user" }];
 
     mockGetCodeforcesUsers.mockResolvedValue([{ handle: "new_user" }]);
+    mockFetch.mockResolvedValue(atcoderResponse({}));
 
-    await loadCodeforcesRatings(members);
+    const ratedMembers = await loadMemberRatings(members);
 
-    expect(members[0].codeforcesRating).toBeUndefined();
+    expect(ratedMembers[0].codeforcesRating).toBeUndefined();
   });
 
-  it("propagates API errors", async () => {
-    const members: Member[] = [{ name: "Alice", codeforces: "tourist" }];
+  it("keeps AtCoder ratings when the Codeforces API fails", async () => {
+    const members: Member[] = [
+      { name: "Alice", codeforces: "tourist", atcoder: "chokudai" },
+    ];
 
     mockGetCodeforcesUsers.mockRejectedValue(
       new Error("Codeforces unavailable"),
     );
+    mockFetch.mockResolvedValue(atcoderResponse({ chokudai: 4200 }));
 
-    await expect(loadCodeforcesRatings(members)).rejects.toThrow(
-      "Codeforces unavailable",
-    );
+    const ratedMembers = await loadMemberRatings(members);
+
+    expect(ratedMembers[0].codeforcesRating).toBeUndefined();
+    expect(ratedMembers[0].atcoderRating).toBe(4200);
+  });
+
+  it("keeps Codeforces ratings when the AtCoder fetch fails", async () => {
+    const members: Member[] = [
+      { name: "Alice", codeforces: "tourist", atcoder: "chokudai" },
+    ];
+
+    mockGetCodeforcesUsers.mockResolvedValue([
+      { handle: "tourist", rating: 3858 },
+    ]);
+    mockFetch.mockResolvedValue({ ok: false, status: 404 });
+
+    const ratedMembers = await loadMemberRatings(members);
+
+    expect(ratedMembers[0].codeforcesRating).toBe(3858);
+    expect(ratedMembers[0].atcoderRating).toBeUndefined();
   });
 });

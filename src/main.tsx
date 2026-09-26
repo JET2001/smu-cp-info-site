@@ -1,7 +1,8 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider } from '@tanstack/react-router';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { router } from './router';
+import { createAppRouter } from './router';
 
 import './globals.css';
 
@@ -11,8 +12,13 @@ if (!app) {
   throw new Error('app not found');
 }
 
+const queryClient = new QueryClient();
+const router = createAppRouter(queryClient);
+
 createRoot(app).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   </StrictMode>,
 );
