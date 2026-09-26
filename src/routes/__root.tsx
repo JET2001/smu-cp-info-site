@@ -32,16 +32,12 @@ function RootLayout() {
   useSeoFallbackCleanup();
 
   return (
-    <html>
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        <SiteHeader />
-        <Outlet />
-        <SiteFooter />
-      </body>
-    </html>
+    <>
+      <HeadContent />
+      <SiteHeader />
+      <Outlet />
+      <SiteFooter />
+    </>
   );
 }
 
