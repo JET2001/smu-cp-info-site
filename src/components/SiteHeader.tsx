@@ -3,7 +3,7 @@ import { Link } from '@tanstack/react-router';
 const archiveUrl = 'https://archive.smujudge.com/index.html';
 
 const baseLinkClasses = 'transition-colors duration-[120ms]';
-const activeLinkClasses = 'text-foreground';
+const activeLinkClasses = 'text-foreground font-bold';
 const inactiveLinkClasses = 'text-muted hover:text-foreground';
 
 export function SiteHeader() {
@@ -16,7 +16,7 @@ export function SiteHeader() {
         >
           <div className="flex items-baseline gap-2.25">
             <strong className="font-body text-base font-bold leading-[normal] tracking-[-0.02em] text-accent max-mobile:text-sm">
-              SMU CP
+              SMU Competitive Programming
             </strong>
           </div>
 
