@@ -1,0 +1,52 @@
+@import 'tailwindcss';
+
+@theme {
+  /* Palette */
+  --color-background: #fdfcf9;
+  --color-foreground: #181816;
+  --color-muted: #6d6b66;
+  --color-border: #d9d6cf;
+  --color-accent: #9e2a2b;
+
+  /* Typography */
+  --font-body: Inter, Arial, sans-serif;
+  --font-heading: Georgia, 'Times New Roman', serif;
+  --text-label: 11px;
+  --tracking-label: 0.13em;
+
+  /* Breakpoints mirroring the original media queries */
+  --breakpoint-xs: 600px;
+  --breakpoint-mobile: 760px;
+  --breakpoint-tablet: 850px;
+
+  /* Original transitions all used `ease` */
+  --default-transition-timing-function: ease;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-body);
+    line-height: normal;
+    scroll-behavior: smooth;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    min-width: 320px;
+    min-height: 100vh;
+    color: var(--color-foreground);
+    background: var(--color-background);
+  }
+}
+
+/* Page shell: 48px gutters, 40px below the mobile breakpoint */
+@utility page-container {
+  width: min(1120px, calc(100% - 48px));
+  margin-inline: auto;
+
+  @media (max-width: 760px) {
+    width: min(100% - 40px, 1120px);
+  }
+}

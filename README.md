@@ -1,6 +1,6 @@
 # SMU CP Info Site
 
-Source for [info.smujudge.com](https://info.smujudge.com). Implemented in vite, typescript and deployed on cloudflare pages.
+Source for [info.smujudge.com](https://info.smujudge.com). Implemented in React, TypeScript, Tailwind CSS and TanStack Router, built with Vite and deployed on Cloudflare.
 
 ## Notes
 1. `main` is continuously deployed to production
@@ -30,25 +30,25 @@ Source for [info.smujudge.com](https://info.smujudge.com). Implemented in vite, 
       - As such, it is _very slow_, and if I do this while page loads it will take about 30 seconds. 
       - Atcoder Contests are generally held on weekends, so my data will most likely contain the updated rating by Monday noon.
 
-10. Source HTML is currently at `members/`, `trainings/` and then `index.html` (for home page). I find this directory structure quite weird. Do let me know if there's a more logical way to combine all html sources
+10. The site is a single-page app with one entry point (`index.html`). Routing is handled client-side by TanStack Router (`src/router.tsx`), with routes for `/`, `/trainings/` and `/members/`. Cloudflare serves `index.html` for unknown paths (`not_found_handling: single-page-application` in `wrangler.jsonc`), so deep links work.
 
-11. Styles - This has just been refactored a week ago! It was way convoluted back then. But I'm terrible at CSS, and now its slightly more readable. My separation of styling is as follows:
-    - `shared.css` - styling for fonts / HTML elements 
-    - `[home/trainings/members].css` - styling for [home / training / members] page only.
+11. Styles are written with Tailwind CSS utilities inline on components. Shared design tokens (colors, fonts, custom breakpoints) and the `page-container` utility live in `src/globals.css`.
 
 #### Project structure
 
 ```
 src/
-  members.ts          # page rendering for members
+  main.tsx            # App entry point
+  router.tsx          # TanStack Router route tree
+  globals.css         # Tailwind import, design tokens, page-container utility
   constants.ts        # Rating band thresholds and external URLs
-  shared.ts           # helps me render nav links, header and footer, stuff common to every page
+  components/         # Header, footer and page heading
+  routes/             # Home, Trainings and Members pages
   api/
     codeforces.ts     # Codeforces API client (unit tested)
-  members.ts          # Members page logic
   members/            # logic for members page and types
     logic.ts          # dynamically loading the table and colors (this file is unit tested)
-  trainings/          # logic for trainings page and types
+  trainings/          # data and types for trainings page
     ...
 public/
   data/
@@ -56,8 +56,7 @@ public/
     atcoder-ratings.json  # Cached AtCoder ratings (see below)
 scripts/
   update-atcoder-ratings.ts  # Fetches and caches AtCoder ratings
-members/index.html    # Members page entry point
-trainings/index.html  # Trainings page entry point
+index.html            # Single HTML entry point
 ```
 ## Commands
 

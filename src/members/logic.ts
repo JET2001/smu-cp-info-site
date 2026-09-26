@@ -48,6 +48,16 @@ export function parseMembers(csv: string): Member[] {
         }
     })
 }
+
+export async function loadMembers(): Promise<Member[]> {
+    const response = await fetch('/data/members.csv')
+
+    if (!response.ok) {
+        throw new Error(`Could not load members: ${response.status}`)
+    }
+
+    return parseMembers(await response.text())
+}
 export async function loadAtcoderRatings(
     members: Member[],
 ): Promise<void> {
@@ -80,9 +90,9 @@ export function ratingClass(
   rating: number | undefined,
   bands: readonly RatingBand[],
 ): string {
-  if (rating === undefined) return 'rating-unrated'
+  if (rating === undefined) return 'text-muted'
 
   const index = bands.findLastIndex(([threshold]) => rating >= threshold)
 
-  return index === -1 ? 'rating-unrated' : bands[index][1]
+  return index === -1 ? 'text-muted' : bands[index][1]
 }

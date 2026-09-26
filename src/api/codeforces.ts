@@ -1,9 +1,9 @@
 import { CODEFORCES_USER_INFO_API_PATH } from "../constants"
-export interface CodeforcesUser {
+export type CodeforcesUser = {
     handle: string
     rating?: number
 };
-interface CodeforcesResponse {
+type CodeforcesResponse = {
     status: 'OK' | 'FAILED'
     result?: CodeforcesUser[]
     comment?: string
