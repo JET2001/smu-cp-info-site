@@ -3,6 +3,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { PageHeading } from '../components/PageHeading';
 import { MembersList } from '../members/components/MembersList';
 import { loadMemberRatings, loadMembers } from '../members/logic';
+import { pageMeta } from '../seo';
 
 const memberQueryOptions = queryOptions({
   queryKey: ['members'],
@@ -13,13 +14,13 @@ export const Route = createFileRoute('/members')({
   loader: ({ context }) =>
     context.queryClient.query({ ...memberQueryOptions, staleTime: 'static' }),
   component: MembersPage,
-  head: () => ({
-    meta: [
-      {
-        title: 'Members | SMU CP',
-      },
-    ],
-  }),
+  head: () =>
+    pageMeta({
+      title: 'Members',
+      description:
+        'Past and present members of the SMU Competitive Programming community, with Codeforces and AtCoder ratings.',
+      path: '/members/',
+    }),
 });
 
 function MembersPage() {

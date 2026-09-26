@@ -1,5 +1,8 @@
 export type RatingBand = readonly [threshold: number, className: string];
 
+export const SITE_NAME = 'SMU Competitive Programming';
+export const SITE_URL = 'https://info.smujudge.com';
+
 export const CODEFORCES_URL = 'https://codeforces.com/profile';
 export const ATCODER_URL = 'https://atcoder.jp/users';
 export const VJUDGE_URL = 'https://vjudge.net/user';

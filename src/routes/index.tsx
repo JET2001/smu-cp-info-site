@@ -1,4 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
+import { SITE_URL } from '../constants';
 
 const principles = [
   "SMU Competitive Programming began in 2024 with SMU's first ICPC team since 2017. It has grown into a wider community for students interested in competitive programming and algorithmic problem solving.",
@@ -7,6 +8,9 @@ const principles = [
 
 export const Route = createFileRoute('/')({
   component: HomePage,
+  head: () => ({
+    links: [{ rel: 'canonical', href: `${SITE_URL}/` }],
+  }),
 });
 
 function HomePage() {
