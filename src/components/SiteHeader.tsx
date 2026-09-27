@@ -1,13 +1,10 @@
 import { Link } from '@tanstack/react-router';
-import { cn } from 'cn';
 
-const archiveUrl = 'https://archive.smujudge.com/index.html';
-
-const baseLinkClasses = 'transition-colors duration-[120ms]';
-const activeLinkClasses = 'text-foreground font-bold';
-const inactiveLinkClasses = 'text-muted hover:text-foreground';
-const brandClasses =
-  'font-body text-base font-bold leading-[normal] tracking-[-0.02em] text-accent';
+const navLinks = [
+  { to: '/', label: 'Home', exact: true },
+  { to: '/trainings/', label: 'Trainings', exact: false },
+  { to: '/members/', label: 'Members', exact: false },
+] as const;
 
 export function SiteHeader() {
   return (
@@ -19,43 +16,33 @@ export function SiteHeader() {
         >
           <div className="flex items-baseline gap-2.25">
             <Link to="/">
-              <strong className={cn(brandClasses, 'max-mobile:hidden')}>
-                SMU Competitive Programming
-              </strong>
-              <strong className={cn(brandClasses, 'hidden max-mobile:inline')}>
-                SMU CP
+              <strong className="font-body text-base font-bold leading-[normal] tracking-[-0.02em] text-accent">
+                SMU{' '}
+                <span className="max-mobile:hidden">
+                  Competitive Programming
+                </span>
+                <span className="hidden max-mobile:inline">CP</span>
               </strong>
             </Link>
           </div>
 
           <div className="flex items-center gap-7.5 text-[13px] max-mobile:flex-wrap max-mobile:justify-end max-mobile:gap-3.75">
-            <Link
-              to="/"
-              activeOptions={{ exact: true }}
-              className={baseLinkClasses}
-              activeProps={{ className: activeLinkClasses }}
-              inactiveProps={{ className: inactiveLinkClasses }}
-            >
-              Home
-            </Link>
-            <Link
-              to="/trainings/"
-              className={baseLinkClasses}
-              activeProps={{ className: activeLinkClasses }}
-              inactiveProps={{ className: inactiveLinkClasses }}
-            >
-              Trainings
-            </Link>
-            <Link
-              to="/members/"
-              className={baseLinkClasses}
-              activeProps={{ className: activeLinkClasses }}
-              inactiveProps={{ className: inactiveLinkClasses }}
-            >
-              Members
-            </Link>
+            {navLinks.map(({ to, label, exact }) => (
+              <Link
+                key={to}
+                to={to}
+                activeOptions={{ exact }}
+                className="transition-colors duration-120"
+                activeProps={{ className: 'text-foreground font-bold' }}
+                inactiveProps={{
+                  className: 'text-muted hover:text-foreground',
+                }}
+              >
+                {label}
+              </Link>
+            ))}
             <a
-              href={archiveUrl}
+              href="https://archive.smujudge.com/index.html"
               target="_blank"
               rel="noopener noreferrer"
               className="text-foreground"
