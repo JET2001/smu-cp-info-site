@@ -1,28 +1,32 @@
-export type RatingBand = readonly [threshold: number, className: string]
+export type RatingBand = readonly [threshold: number, className: string];
 
-export const CODEFORCES_URL = 'https://codeforces.com/profile'
-export const ATCODER_URL = 'https://atcoder.jp/users'
-export const VJUDGE_URL = 'https://vjudge.net/user'
+export const SITE_NAME = 'SMU Competitive Programming';
+export const SITE_URL = 'https://info.smujudge.com';
 
-export const CODEFORCES_USER_INFO_API_PATH = 'https://codeforces.com/api/user.info?handles'
+export const CODEFORCES_URL = 'https://codeforces.com/profile';
+export const ATCODER_URL = 'https://atcoder.jp/users';
+export const VJUDGE_URL = 'https://vjudge.net/user';
+
+export const CODEFORCES_USER_INFO_API_PATH =
+  'https://codeforces.com/api/user.info?handles';
 
 export const CODEFORCES_BANDS: readonly RatingBand[] = [
-  [0, 'cf-gray'],
-  [1200, 'cf-green'],
-  [1400, 'cf-cyan'],
-  [1600, 'cf-blue'],
-  [1900, 'cf-violet'],
-  [2100, 'cf-orange'],
-  [2400, 'cf-red'],
-]
+  [0, 'text-[#808080]'],
+  [1200, 'text-[#008000]'],
+  [1400, 'text-[#03a89e]'],
+  [1600, 'text-[#0000ff]'],
+  [1900, 'text-[#aa00aa]'],
+  [2100, 'text-[#ff8c00]'],
+  [2400, 'text-[#ff0000]'],
+];
 
 export const ATCODER_BANDS: readonly RatingBand[] = [
-  [0, 'at-gray'],
-  [400, 'at-brown'],
-  [800, 'at-green'],
-  [1200, 'at-cyan'],
-  [1600, 'at-blue'],
-  [2000, 'at-yellow'],
-  [2400, 'at-orange'],
-  [2800, 'at-red'],
-]
+  [0, 'text-[#808080]'],
+  [400, 'text-[#804000]'],
+  [800, 'text-[#008000]'],
+  [1200, 'text-[#00c0c0]'],
+  [1600, 'text-[#0000ff]'],
+  [2000, 'text-[#c0c000]'],
+  [2400, 'text-[#ff8000]'],
+  [2800, 'text-[#ff0000]'],
+];
